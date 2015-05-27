@@ -36,10 +36,6 @@ public class Brackets {
 		
 		if(temp == lroundbr){
 			result += roundbr(expr);
-			if(valid == false ){
-				System.out.printf("NO");
-				return;
-			}
 			if(expr[0].length() != 0){
 				valid = false;
 			}
@@ -47,19 +43,11 @@ public class Brackets {
 		
 		else if(temp == lcurlbr){
 			result += curlbr(expr);
-			if(valid == false){
-				System.out.printf("NO");
-				return;
-			}
 			if(expr[0].length() != 0)
 				valid = false;
 		}
 		else if(temp == lsqbr){
 			result += sqbr(expr);
-			if(valid == false){
-				System.out.printf("NO");
-				return;
-			}
 			if(expr[0].length() != 0)
 				valid = false;
 		}
