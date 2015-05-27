@@ -17,15 +17,14 @@ public class Brackets {
 		String[] expr = new String[1];
 		expr[0] = sc.next();
 
-		isValidExp(expr);
+		ValidateAndCalculate(expr);
 
 		sc.close();
 
 	}
 
-	public static void isValidExp(String[] expr) {
+	public static void ValidateAndCalculate(String[] expr) {
 
-		int flag;
 		int result = 0;
 
 		char temp = expr[0].charAt(0);
