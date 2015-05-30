@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Brackets {
 
-	static boolean valid = true;
+	static boolean isValid = true;
 	static int result = 0;
 	static String expression;
 	static int currentIndex = 0;
@@ -13,13 +13,13 @@ public class Brackets {
 
 		expression = sc.next();
 
-		ValidateAndCalculate();
+		isValidateAndCalculate();
 
 		sc.close();
 
 	}
 
-	public static void ValidateAndCalculate() {
+	public static void isValidateAndCalculate() {
 
 		switch (expression.charAt(currentIndex++)) {
 		case '(':
@@ -32,11 +32,11 @@ public class Brackets {
 			result = evaluateCurlBracket();
 			break;
 		default:
-			valid = false;
+			isValid = false;
 			break;
 		}
 
-		if (valid && expression.length() == currentIndex) {
+		if (isValid && expression.length() == currentIndex) {
 			System.out.printf("%d\n", result);
 		} else {
 			System.out.printf("NO\n");
@@ -44,32 +44,32 @@ public class Brackets {
 	}
 
 	public static int evaluateRoundBracket() {
-		int value = 0;
+		int currentValue = 0;
 		for (int i = currentIndex; i < expression.length(); ++i) {
 			if (Character.isDigit(expression.charAt(i))) {
 				continue;
 			} else {
 				if (expression.charAt(i) == ')') {
 					if (i == currentIndex) {
-						value += 0;
+						currentValue += 0;
 					} else {
-						value = Integer.parseInt(expression.substring(
+						currentValue = Integer.parseInt(expression.substring(
 								currentIndex, i));
 					}
 					currentIndex = i + 1;
-					return value;
+					return currentValue;
 				} else {
-					valid = false;
+					isValid = false;
 					return -1;
 				}
 			}
 		}
-		valid = false;
+		isValid = false;
 		return -1; // No closing bracket
 	}
 
 	public static int evaluateSquareBracket() {
-		int value = 0;
+		int currentValue = 0;
 
 		for (int i = currentIndex; i < expression.length(); ++i) {
 			if (Character.isDigit(expression.charAt(i))) {
@@ -77,63 +77,63 @@ public class Brackets {
 			} else {
 				if (expression.charAt(i) == ']') {
 					if (i == currentIndex) {
-						value += 0;
+						currentValue += 0;
 					} else {
-						value += Integer.parseInt(expression.substring(
+						currentValue += Integer.parseInt(expression.substring(
 								currentIndex, i));
 					}
 					currentIndex = i + 1;
-					return value;
+					return currentValue;
 				}
 				if (expression.charAt(i) == '(') {
 					if (i != currentIndex)
-						value += Integer.parseInt(expression.substring(
+						currentValue += Integer.parseInt(expression.substring(
 								currentIndex, i));
 					currentIndex = i + 1;
-					value += 2 * evaluateRoundBracket();
+					currentValue += 2 * evaluateRoundBracket();
 					i = currentIndex - 1; // because evaluateRoundBracket runs
 											// thru the string;
 				} else {
-					valid = false;
+					isValid = false;
 					return -1;
 				}
 			}
 		}
-		valid = false;
+		isValid = false;
 		return -1; // No closing bracket
 	}
 
 	public static int evaluateCurlBracket() {
-		int value = 0;
+		int currentValue = 0;
 		for (int i = currentIndex; i < expression.length(); ++i) {
 			if (Character.isDigit(expression.charAt(i))) {
 				continue;
 			} else {
 				if (expression.charAt(i) == '}') {
 					if (i == currentIndex) {
-						value += 0;
+						currentValue += 0;
 					} else {
-						value += Integer.parseInt(expression.substring(
+						currentValue += Integer.parseInt(expression.substring(
 								currentIndex, i));
 					}
 					currentIndex = i + 1;
-					return value;
+					return currentValue;
 				}
 				if (expression.charAt(i) == '[') {
 					if (i != currentIndex)
-						value += Integer.parseInt(expression.substring(
+						currentValue += Integer.parseInt(expression.substring(
 								currentIndex, i));
 					currentIndex = i + 1;
-					value += 2 * evaluateSquareBracket();
+					currentValue += 2 * evaluateSquareBracket();
 					i = currentIndex - 1; // because evaluateSquareBracket runs
 											// thru the string
 				} else {
-					valid = false;
+					isValid = false;
 					return -1;
 				}
 			}
 		}
-		valid = false;
+		isValid = false;
 		return -1; // No closing bracket
 	}
 }
