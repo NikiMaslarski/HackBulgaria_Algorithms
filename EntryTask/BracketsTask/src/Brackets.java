@@ -2,74 +2,61 @@ import java.util.Scanner;
 
 public class Brackets {
 
-	static final int lcurlbr = '{';
-	static final int rcurlbr = '}';
-	static final int lsqbr = '[';
-	static final int rsqbr = ']';
-	static final int lroundbr = '(';
-	static final int rroundbr = ')';
 	static boolean valid = true;
+	static int result = 0;
+	static String expression;
+	static int currentIndex = 0;
 
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 
-		String[] expr = new String[1];
-		expr[0] = sc.next();
+		expression = sc.next();
 
-		ValidateAndCalculate(expr);
+		ValidateAndCalculate();
 
 		sc.close();
 
 	}
 
-	public static void ValidateAndCalculate(String[] expr) {
+	public static void ValidateAndCalculate() {
 
-		int result = 0;
-
-		char temp = expr[0].charAt(0);
-		expr[0] = expr[0].substring(1);
-
-		if (temp == lroundbr) {
-			result += roundbr(expr);
-			if (expr[0].length() != 0) {
-				valid = false;
-			}
+		switch (expression.charAt(currentIndex++)) {
+		case '(':
+			result = evaluateRoundBracket();
+			break;
+		case '[':
+			result = evaluateSquareBracket();
+			break;
+		case '{':
+			result = evaluateCurlBracket();
+			break;
+		default:
+			valid = false;
+			break;
 		}
 
-		else if (temp == lcurlbr) {
-			result += curlbr(expr);
-			if (expr[0].length() != 0)
-				valid = false;
-		} else if (temp == lsqbr) {
-			result += sqbr(expr);
-			if (expr[0].length() != 0)
-				valid = false;
-		} else
-			valid = false;
-
-		if (valid) {
+		if (valid && expression.length() == currentIndex) {
 			System.out.printf("%d\n", result);
 		} else {
 			System.out.printf("NO\n");
 		}
 	}
 
-	public static int roundbr(String[] expr) {
-		char temp;
+	public static int evaluateRoundBracket() {
 		int value = 0;
-		for (int i = 0; i < expr[0].length(); ++i) {
-			temp = expr[0].charAt(i);
-			if (Character.isDigit(temp)) {
+		for (int i = currentIndex; i < expression.length(); ++i) {
+			if (Character.isDigit(expression.charAt(i))) {
 				continue;
 			} else {
-				if (temp == rroundbr) {
-					if (i == 0) {
+				if (expression.charAt(i) == ')') {
+					if (i == currentIndex) {
 						value += 0;
 					} else {
-						value = Integer.parseInt(expr[0].substring(0, i));
+						value = Integer.parseInt(expression.substring(
+								currentIndex, i));
 					}
-					expr[0] = expr[0].substring(i + 1);
+					currentIndex = i + 1;
 					return value;
 				} else {
 					valid = false;
@@ -81,29 +68,31 @@ public class Brackets {
 		return -1; // No closing bracket
 	}
 
-	public static int sqbr(String[] expr) {
-		char temp;
+	public static int evaluateSquareBracket() {
 		int value = 0;
-		for (int i = 0; i < expr[0].length(); ++i) {
-			temp = expr[0].charAt(i);
-			if (Character.isDigit(temp)) {
+
+		for (int i = currentIndex; i < expression.length(); ++i) {
+			if (Character.isDigit(expression.charAt(i))) {
 				continue;
 			} else {
-				if (temp == rsqbr) {
-					if (i == 0) {
+				if (expression.charAt(i) == ']') {
+					if (i == currentIndex) {
 						value += 0;
 					} else {
-						value += Integer.parseInt(expr[0].substring(0, i));
+						value += Integer.parseInt(expression.substring(
+								currentIndex, i));
 					}
-					expr[0] = expr[0].substring(i + 1);
+					currentIndex = i + 1;
 					return value;
 				}
-				if (temp == lroundbr) {
-					if (i != 0)
-						value += Integer.parseInt(expr[0].substring(0, i));
-					expr[0] = expr[0].substring(i + 1);
-					value += 2 * roundbr(expr);
-					i = -1; // because roundbr returns new string from index 0;
+				if (expression.charAt(i) == '(') {
+					if (i != currentIndex)
+						value += Integer.parseInt(expression.substring(
+								currentIndex, i));
+					currentIndex = i + 1;
+					value += 2 * evaluateRoundBracket();
+					i = currentIndex - 1; // because evaluateRoundBracket runs
+											// thru the string;
 				} else {
 					valid = false;
 					return -1;
@@ -114,29 +103,30 @@ public class Brackets {
 		return -1; // No closing bracket
 	}
 
-	public static int curlbr(String[] expr) {
-		char temp;
+	public static int evaluateCurlBracket() {
 		int value = 0;
-		for (int i = 0; i < expr[0].length(); ++i) {
-			temp = expr[0].charAt(i);
-			if (Character.isDigit(temp)) {
+		for (int i = currentIndex; i < expression.length(); ++i) {
+			if (Character.isDigit(expression.charAt(i))) {
 				continue;
 			} else {
-				if (temp == rcurlbr) {
-					if (i == 0) {
+				if (expression.charAt(i) == '}') {
+					if (i == currentIndex) {
 						value += 0;
 					} else {
-						value += Integer.parseInt(expr[0].substring(0, i));
+						value += Integer.parseInt(expression.substring(
+								currentIndex, i));
 					}
-					expr[0] = expr[0].substring(i + 1);
+					currentIndex = i + 1;
 					return value;
 				}
-				if (temp == lsqbr) {
-					if (i != 0)
-						value += Integer.parseInt(expr[0].substring(0, i));
-					expr[0] = expr[0].substring(i + 1);
-					value += 2 * sqbr(expr);
-					i = -1; // because sqbr returns new string from index 0
+				if (expression.charAt(i) == '[') {
+					if (i != currentIndex)
+						value += Integer.parseInt(expression.substring(
+								currentIndex, i));
+					currentIndex = i + 1;
+					value += 2 * evaluateSquareBracket();
+					i = currentIndex - 1; // because evaluateSquareBracket runs
+											// thru the string
 				} else {
 					valid = false;
 					return -1;
@@ -144,6 +134,6 @@ public class Brackets {
 			}
 		}
 		valid = false;
-		return -1;
+		return -1; // No closing bracket
 	}
 }
