@@ -2,10 +2,10 @@ import java.util.Scanner;
 
 public class Brackets {
 
-	static boolean isValid = true;
-	static int result = 0;
-	static String expression;
-	static int currentIndex = 0;
+	private static boolean isValid = true;
+	private static int result = 0;
+	private static String expression;
+	private static int currentIndex = 0;
 
 	public static void main(String[] args) {
 
@@ -19,7 +19,7 @@ public class Brackets {
 
 	}
 
-	public static void isValidateAndCalculate() {
+	private static void isValidateAndCalculate() {
 
 		switch (expression.charAt(currentIndex++)) {
 		case '(':
@@ -43,7 +43,7 @@ public class Brackets {
 		}
 	}
 
-	public static int evaluateRoundBracket() {
+	private static int evaluateRoundBracket() {
 		int currentValue = 0;
 		for (int i = currentIndex; i < expression.length(); ++i) {
 			if (Character.isDigit(expression.charAt(i))) {
@@ -68,7 +68,7 @@ public class Brackets {
 		return -1; // No closing bracket
 	}
 
-	public static int evaluateSquareBracket() {
+	private static int evaluateSquareBracket() {
 		int currentValue = 0;
 
 		for (int i = currentIndex; i < expression.length(); ++i) {
@@ -103,7 +103,7 @@ public class Brackets {
 		return -1; // No closing bracket
 	}
 
-	public static int evaluateCurlBracket() {
+	private static int evaluateCurlBracket() {
 		int currentValue = 0;
 		for (int i = currentIndex; i < expression.length(); ++i) {
 			if (Character.isDigit(expression.charAt(i))) {

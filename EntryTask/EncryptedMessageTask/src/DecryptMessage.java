@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 public class DecryptMessage {
-	static int alphabetLen;
-	static int keyLen;
-	static char[] key;
-	static String alphabet;
-	static char[] message;
+	private static int alphabetLen;
+	private static int keyLen;
+	private static char[] key;
+	private static String alphabet;
+	private static char[] message;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -22,7 +22,7 @@ public class DecryptMessage {
 		sc.close();
 	}
 
-	public static String fixString(String encmsg) {
+	private static String fixString(String encmsg) {
 		int strlen = encmsg.length();
 		StringBuilder temp = new StringBuilder();
 		temp.append(encmsg.substring(strlen / 2, strlen));
@@ -31,7 +31,7 @@ public class DecryptMessage {
 		return temp.toString();
 	}
 
-	public static void SplitText(String encmsg) {
+	private static void SplitText(String encmsg) {
 		int i = 0;
 		int j = encmsg.length() - 1;
 
@@ -50,7 +50,7 @@ public class DecryptMessage {
 
 	}
 
-	public static String Decrypt() {
+	private static String Decrypt() {
 		StringBuilder decryptedMsg = new StringBuilder();
 		int originalIndex;
 		for (int i = 0; i < message.length; ++i) {
